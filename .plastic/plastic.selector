@@ -1,0 +1,4 @@
+repository "StoreSimulator/StoreSimulator@2474154090658@cloud"
+  path "/"
+    br "/main"
+    co "/main"
