@@ -6,7 +6,6 @@ public class ShelfSpaceController : MonoBehaviour
 {
     public StockInfo info;
 
-    //public int amountOnShelf;
     public List<StockObject> objectsOnShelf;
 
     public List<Transform> bigDrinkPoints;
@@ -71,10 +70,7 @@ public class ShelfSpaceController : MonoBehaviour
 
         if (preventPlacing == false)
         {
-            //objectToPlace.transform.SetParent(transform);
             objectToPlace.MakePlaced();
-
-            objectToPlace.transform.SetParent(bigDrinkPoints[objectsOnShelf.Count]);
 
             switch (info.typeOfStock)
             {
@@ -95,7 +91,6 @@ public class ShelfSpaceController : MonoBehaviour
                     break;
             }
 
-            //amountOnShelf += 1;
             objectsOnShelf.Add(objectToPlace);
 
             UpdateDisplayPrice(info.currentPrice);

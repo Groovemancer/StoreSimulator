@@ -51,4 +51,10 @@ public class StockObject : MonoBehaviour
         theRB.isKinematic = false;
         col.enabled = true;
     }
+
+    public void PlaceInBox()
+    {
+        theRB.isKinematic = true;
+        col.enabled = false;
+    }
 }

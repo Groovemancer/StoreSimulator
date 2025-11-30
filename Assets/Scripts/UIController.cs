@@ -1,16 +1,23 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+
+    public InputActionReference openBuyMenuAction;
 
     public GameObject updatePricePanel;
 
     public TMP_Text basePriceText, currentPriceText;
     public TMP_InputField priceInputField;
 
+    public TMP_Text moneyText;
+
     private StockInfo activeStockInfo;
+
+    public GameObject buyMenuScreen;
 
     private void Awake()
     {
@@ -26,7 +33,10 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (openBuyMenuAction.action.WasPressedThisFrame())
+        {
+            OpenCloseBuyMenu();
+        }
     }
 
     public void OpenUpdatePrice(StockInfo stockToUpdate)
@@ -60,4 +70,24 @@ public class UIController : MonoBehaviour
         CloseUpdatePrice();
     }
 
+    public void UpdateMoney(float currentMoney)
+    {
+        moneyText.text = "$" + currentMoney.ToString("F2");
+    }
+
+    public void OpenCloseBuyMenu()
+    {
+        if (buyMenuScreen.activeSelf == false)
+        {
+            buyMenuScreen.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            buyMenuScreen.SetActive(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
 }
