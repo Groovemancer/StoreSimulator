@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public InputActionReference takeItemAction;
     public InputActionReference interactAction;
     public InputActionReference openBoxAction;
+    public InputActionReference moveFurnitureAction;
+    public InputActionReference placeFurnitureAction;
 
     public CharacterController charCon;
 
@@ -32,16 +34,20 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsShelf;
     public LayerMask whatIsStockBox;
     public LayerMask whatIsBin;
+    public LayerMask whatIsFurniture;
+    public LayerMask whatIsCheckout;
 
     public float interactionRange;
 
     public Transform holdPoint;
     public Transform boxHoldPoint;
+    public Transform furniturePoint;
 
     public float throwForce;
 
     private StockObject heldPickup;
     public StockBoxController heldBox;
+    public FurnitureController heldFurniture;
 
     public float waitToPlaceStock;
     private float placeStockCounter;
@@ -70,6 +76,14 @@ public class PlayerController : MonoBehaviour
         if (UIController.instance.buyMenuScreen != null)
         {
             if (UIController.instance.buyMenuScreen.activeSelf == true)
+            {
+                return;
+            }
+        }
+
+        if (UIController.instance.pauseScreen != null)
+        {
+            if (UIController.instance.pauseScreen.activeSelf == true)
             {
                 return;
             }
@@ -111,19 +125,18 @@ public class PlayerController : MonoBehaviour
                 ySpeed = jumpForce;
             }
         }
-
+        
         ySpeed += (Physics.gravity.y * Time.deltaTime);
 
         moveAmount.y = ySpeed;
 
         charCon.Move(moveAmount * Time.deltaTime);
 
-
         // check for pickup
         Ray ray = theCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
-        if (heldPickup == null && heldBox == null)
+        if (heldPickup == null && heldBox == null && heldFurniture == null)
         {
             if (pickupAction.action.WasPressedThisFrame())
             {
@@ -174,6 +187,11 @@ public class PlayerController : MonoBehaviour
                     hit.collider.GetComponent<ShelfSpaceController>().StartPriceUpdate();
                     return;
                 }
+
+                if (Physics.Raycast(ray, out hit, interactionRange, whatIsCheckout))
+                {
+                    hit.collider.GetComponent<Checkout>().CheckoutCustomer();
+                }
             }
 
             if (openBoxAction.action.WasPressedThisFrame())
@@ -181,6 +199,20 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, interactionRange, whatIsStockBox))
                 {
                     hit.collider.GetComponent<StockBoxController>().OpenClose();
+                }
+            }
+
+            if (moveFurnitureAction.action.WasPressedThisFrame())
+            {
+                if (Physics.Raycast(ray, out hit, interactionRange, whatIsFurniture))
+                {
+                    heldFurniture = hit.transform.GetComponent<FurnitureController>();
+
+                    heldFurniture.transform.SetParent(furniturePoint);
+                    heldFurniture.transform.localPosition = Vector3.zero;
+                    heldFurniture.transform.localRotation = Quaternion.identity;
+
+                    heldFurniture.MakePlaceable();
                 }
             }
         }
@@ -263,6 +295,21 @@ public class PlayerController : MonoBehaviour
                             placeStockCounter = waitToPlaceStock;
                         }
                     }
+                }
+            }
+
+            if (heldFurniture != null)
+            {
+                heldFurniture.transform.position = new Vector3(furniturePoint.position.x, 0f, furniturePoint.position.z);
+                heldFurniture.transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
+
+                if (placeFurnitureAction.action.WasPressedThisFrame())
+                {
+                    heldFurniture.transform.SetParent(null);
+
+                    heldFurniture.PlaceFurniture();
+
+                    heldFurniture = null;
                 }
             }
         }

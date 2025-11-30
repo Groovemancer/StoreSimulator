@@ -15,8 +15,6 @@ public class ShelfSpaceController : MonoBehaviour
 
     public void PlaceStock(StockObject objectToPlace)
     {
-        Debug.Log(objectToPlace.info.name);
-
         bool preventPlacing = true;
 
         if (objectsOnShelf.Count == 0)

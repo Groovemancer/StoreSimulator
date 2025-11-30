@@ -70,9 +70,36 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "MoveFurniture",
+                    "type": "Button",
+                    "id": "50d39eae-0cc6-453e-a3a4-49ae2b44ce75",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceFurniture",
+                    "type": "Button",
+                    "id": "f52c22ce-5717-4e26-abae-719f6d3f76fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "OpenCloseBuyMenu",
                     "type": "Button",
                     "id": "6ff2d31d-f513-4aaf-bb06-a5863424282f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "4e39d87a-46f4-46d3-ad6b-11dcec37423b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
@@ -490,6 +517,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c9cf4d28-e76d-46fe-ba3f-f45c586457f2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "282d27a4-a59a-42aa-b27f-81cfcf0e9935",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -501,12 +539,78 @@
                 },
                 {
                     "name": "",
-                    "id": "dcd4586e-fe20-4ede-9d79-d33750eac59a",
-                    "path": "<Gamepad>/select",
+                    "id": "7cfd6aa7-29f3-41fb-882b-3ebcdc9fbf85",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "OpenBox",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "175aa20f-c45a-41f0-ac1b-3f00f50f57f5",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MoveFurniture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c5166a8-35bd-48e3-8512-efde7a48b1d8",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "MoveFurniture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d35bc0a3-ac11-4fdc-9308-7b9190bb8482",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PlaceFurniture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c90b5de-925c-49cd-8367-5cc31b369335",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "PlaceFurniture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "971098d2-3be7-4284-80da-32264cf1000b",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "PlaceFurniture",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d8eed80-b650-4f77-b18e-42f6a28e284a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PlaceFurniture",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -523,12 +627,34 @@
                 },
                 {
                     "name": "",
-                    "id": "7cfd6aa7-29f3-41fb-882b-3ebcdc9fbf85",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "dcd4586e-fe20-4ede-9d79-d33750eac59a",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "OpenCloseBuyMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "329e514b-e74b-4cd2-97e0-c02449a8bef9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fee84fb9-3a36-4e5c-b29f-679a81af30d2",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
