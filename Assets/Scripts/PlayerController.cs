@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public InputActionReference pickupAction;
     public InputActionReference releaseAction;
     public InputActionReference takeItemAction;
+    public InputActionReference interactAction;
 
     public CharacterController charCon;
 
@@ -50,6 +51,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UIController.instance.updatePricePanel != null)
+        {
+            if (UIController.instance.updatePricePanel.activeSelf == true)
+            {
+                return;
+            }
+        }
+
         Vector2 lookInput = lookAction.action.ReadValue<Vector2>();
 
         horiRot += lookInput.x * lookSpeed * Time.deltaTime;
@@ -128,6 +137,14 @@ public class PlayerController : MonoBehaviour
                         heldPickup.transform.SetParent(holdPoint);
                         heldPickup.Pickup();
                     }
+                }
+            }
+
+            if (interactAction.action.WasPressedThisFrame())
+            {
+                if (Physics.Raycast(ray, out hit, interactionRange, whatIsShelf))
+                {
+                    hit.collider.GetComponent<ShelfSpaceController>().StartPriceUpdate();
                 }
             }
         }

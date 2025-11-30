@@ -98,7 +98,7 @@ public class ShelfSpaceController : MonoBehaviour
             //amountOnShelf += 1;
             objectsOnShelf.Add(objectToPlace);
 
-            shelfLabel.text = "$" + objectsOnShelf[0].info.price;
+            UpdateDisplayPrice(info.currentPrice);
         }
     }
 
@@ -118,5 +118,22 @@ public class ShelfSpaceController : MonoBehaviour
         }
 
         return objectToReturn;
+    }
+
+    public void StartPriceUpdate()
+    {
+        if (objectsOnShelf.Count > 0)
+        {
+            UIController.instance.OpenUpdatePrice(info);
+        }
+    }
+
+    public void UpdateDisplayPrice(float price)
+    {
+        if (objectsOnShelf.Count > 0)
+        {
+            info.currentPrice = price;
+            shelfLabel.text = "$" + info.currentPrice.ToString("F2");
+        }
     }
 }
