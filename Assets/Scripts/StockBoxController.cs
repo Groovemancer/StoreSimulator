@@ -91,6 +91,11 @@ public class StockBoxController : MonoBehaviour
         col.enabled = false;
 
         isHeld = true;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(1);
+        }
     }
 
     public void Release()
@@ -99,6 +104,11 @@ public class StockBoxController : MonoBehaviour
         col.enabled = true;
 
         isHeld = false;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(0);
+        }
     }
 
     public void OpenClose()
@@ -112,6 +122,11 @@ public class StockBoxController : MonoBehaviour
         {
             flap1.SetActive(true);
             flap2.SetActive(true);
+        }
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(2);
         }
     }
 

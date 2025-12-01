@@ -32,6 +32,11 @@ public class FurnitureController : MonoBehaviour
         mainObject.SetActive(false);
         placingObject.SetActive(true);
         col.enabled = false;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(4);
+        }
     }
 
     public void PlaceFurniture()
@@ -39,5 +44,10 @@ public class FurnitureController : MonoBehaviour
         mainObject.SetActive(true);
         placingObject.SetActive(false);
         col.enabled = true;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(5);
+        }
     }
 }
