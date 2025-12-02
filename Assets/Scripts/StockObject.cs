@@ -43,6 +43,11 @@ public class StockObject : MonoBehaviour
         isPlaced = false;
 
         col.enabled = false;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySFX(6);
+        }
     }
 
     public void MakePlaced()

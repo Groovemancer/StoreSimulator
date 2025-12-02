@@ -92,6 +92,11 @@ public class ShelfSpaceController : MonoBehaviour
             objectsOnShelf.Add(objectToPlace);
 
             UpdateDisplayPrice(info.currentPrice);
+
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlaySFX(7);
+            }
         }
     }
 
