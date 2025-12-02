@@ -16,6 +16,8 @@ public class UIController : MonoBehaviour
     public TMP_InputField priceInputField;
 
     public TMP_Text moneyText;
+    public TMP_Text dayText;
+    public TMP_Text timeText;
 
     private StockInfo activeStockInfo;
 
@@ -130,5 +132,23 @@ public class UIController : MonoBehaviour
 
             Time.timeScale = 1f;
         }
+    }
+
+    public void UpdateTime(int minute, int hour, int day)
+    {
+        dayText.text = $"Day {day}";
+
+        string amPm = "AM";
+        if (hour > 11)
+        {
+            amPm = "PM";
+        }
+        if (hour > 12)
+        {
+            hour -= 12;
+        }
+
+        timeText.text = $"{hour:00}:{minute:00}{amPm}";
+
     }
 }
