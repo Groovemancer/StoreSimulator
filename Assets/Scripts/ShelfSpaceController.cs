@@ -131,7 +131,10 @@ public class ShelfSpaceController : MonoBehaviour
         if (objectsOnShelf.Count > 0)
         {
             info.currentPrice = price;
-            shelfLabel.text = "$" + info.currentPrice.ToString("F2");
+
+            float priceCoverted = CurrencyController.instance.ConvertMoney(info.currentPrice);
+
+            shelfLabel.text = CurrencyController.instance.GetCurrencySymbol() + priceCoverted.ToString("F2");
         }
     }
 }

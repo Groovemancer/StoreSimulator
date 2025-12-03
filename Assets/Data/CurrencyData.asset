@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9144d029ff2f68b4fbe1231c1cd18dbd, type: 3}
+  m_Name: CurrencyData
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyData
+  Currencies:
+  - Name: USD
+    Type: 0
+    Symbol: $
+    ExchangeRate: 1
+  - Name: EUR
+    Type: 1
+    Symbol: "\u20AC"
+    ExchangeRate: 0.85
+  - Name: JPY
+    Type: 2
+    Symbol: "\xA5"
+    ExchangeRate: 150
+  - Name: GBP
+    Type: 3
+    Symbol: "\xA3"
+    ExchangeRate: 0.75
+  - Name: CAD
+    Type: 4
+    Symbol: $
+    ExchangeRate: 1.35
+  - Name: AUD
+    Type: 5
+    Symbol: $
+    ExchangeRate: 1.5
+  - Name: CNY / RMB
+    Type: 6
+    Symbol: "\xA5"
+    ExchangeRate: 7

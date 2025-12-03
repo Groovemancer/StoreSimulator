@@ -20,7 +20,7 @@ public class PlayerSettings
     public float MusicVolume;
     public float SoundVolume;
     public bool InvertedCamera;
-    public int CurrencyType;
+    public CurrencyType CurrencyType;
 
     public void LoadSettings()
     {
@@ -28,7 +28,7 @@ public class PlayerSettings
         MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
         SoundVolume = PlayerPrefs.GetFloat("SoundVolume");
         InvertedCamera = (PlayerPrefs.GetInt("InvertedCamera") != 0);
-        CurrencyType = PlayerPrefs.GetInt("CurrencyType");
+        CurrencyType = (CurrencyType)PlayerPrefs.GetInt("CurrencyType");
     }
 
     public void SaveSettings()
@@ -37,7 +37,7 @@ public class PlayerSettings
         PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
         PlayerPrefs.SetFloat("SoundVolume", SoundVolume);
         PlayerPrefs.SetInt("InvertedCamera", Convert.ToInt32(InvertedCamera));
-        PlayerPrefs.SetInt("CurrencyType", CurrencyType);
+        PlayerPrefs.SetInt("CurrencyType", (int)CurrencyType);
         PlayerPrefs.Save();
     }
 }

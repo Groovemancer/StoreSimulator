@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public string mainScene;
+    public GameObject settingsMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +21,11 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(mainScene);
+    }
+
+    public void SettingsMenu()
+    {
+        settingsMenu.SetActive(true);
     }
 
     public void QuitGame()
