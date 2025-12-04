@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurrencyController : MonoBehaviour
+public class CurrencyManager
 {
-    public static CurrencyController instance;
+    private static CurrencyManager _instance;
+    
 
     [SerializeField]
     private CurrencyData m_currencyData;
@@ -13,22 +14,26 @@ public class CurrencyController : MonoBehaviour
 
     public Action<CurrencyType> OnCurrencyChanged;
 
-    private void Awake()
+    public CurrencyManager()
     {
-        if (instance == null)
-        {
-            instance = this;
+        _instance = this;
+    }
 
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+    public static CurrencyManager Instance
+    {
+        get
         {
-            Destroy(gameObject);
+            if (_instance == null)
+            {
+                _instance = new CurrencyManager();
+            }
+            return _instance;
         }
     }
 
-    private void Start()
+    public void Initialize(CurrencyData currencyData)
     {
+        m_currencyData = currencyData;
         currentSetting = m_currencyData.Currencies.Find(cs => cs.Type == CurrencyType.USD); // default
     }
 

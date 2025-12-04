@@ -29,18 +29,18 @@ public class BuyStockFrameController : MonoBehaviour
 
         nameText.text = info.name;
 
-        float priceCoverted = CurrencyController.instance.ConvertMoney(info.price);
+        float priceCoverted = CurrencyManager.Instance.ConvertMoney(info.price);
 
-        priceText.text = CurrencyController.instance.GetCurrencySymbol() + priceCoverted.ToString("F2");
+        priceText.text = CurrencyManager.Instance.GetCurrencySymbol() + priceCoverted.ToString("F2");
 
         int boxAmount = boxToSpawn.GetStockAmount(info.typeOfStock);
         amountInBoxText.text = boxAmount.ToString() + " per box";
 
         boxCost = boxAmount * info.price;
         float boxCostDisplay = boxAmount * priceCoverted;
-        boxPriceText.text = "Box: " + CurrencyController.instance.GetCurrencySymbol() + boxCostDisplay.ToString("F2");
+        boxPriceText.text = "Box: " + CurrencyManager.Instance.GetCurrencySymbol() + boxCostDisplay.ToString("F2");
 
-        buttonText.text = "PAY: " + CurrencyController.instance.GetCurrencySymbol() + boxCostDisplay.ToString("F2");
+        buttonText.text = "PAY: " + CurrencyManager.Instance.GetCurrencySymbol() + boxCostDisplay.ToString("F2");
     }
 
     public void BuyBox()

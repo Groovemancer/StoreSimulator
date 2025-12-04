@@ -260,11 +260,12 @@ MonoBehaviour:
   moveFurnitureAction: {fileID: -130430818432471068, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   placeFurnitureAction: {fileID: 4091705248851876248, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   charCon: {fileID: 6662576166473834825}
-  moveSpeed: 5
-  jumpForce: 4
-  lookSpeed: 10
-  minLookAngle: -80
-  maxLookAngle: 80
+  m_moveSpeed: 5
+  m_jumpForce: 4
+  m_mouseLookSpeed: 10
+  m_gamepadLookSpeed: 80
+  m_minLookAngle: -80
+  m_maxLookAngle: 80
   theCam: {fileID: 3130097519732834643}
   whatIsStock:
     serializedVersion: 2
@@ -289,8 +290,6 @@ MonoBehaviour:
   boxHoldPoint: {fileID: 522421784902060285}
   furniturePoint: {fileID: 3629667384340629847}
   throwForce: 10
-  heldBox: {fileID: 0}
-  heldFurniture: {fileID: 0}
   waitToPlaceStock: 0.1
 --- !u!143 &6662576166473834825
 CharacterController:

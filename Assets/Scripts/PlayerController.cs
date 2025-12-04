@@ -1,4 +1,4 @@
-using System.Diagnostics.Contracts;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,13 +20,23 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController charCon;
 
-    public float moveSpeed;
+    [SerializeField]
+    private float m_moveSpeed;
 
-    public float jumpForce;
+    [SerializeField]
+    private float m_jumpForce;
 
-    public float lookSpeed;
+    [SerializeField]
+    private float m_mouseLookSpeed;
 
-    public float minLookAngle, maxLookAngle;
+    [SerializeField]
+    private float m_gamepadLookSpeed;
+
+    [SerializeField]
+    private float m_minLookAngle;
+
+    [SerializeField]
+    private float m_maxLookAngle;
 
     public Camera theCam;
 
@@ -46,14 +56,14 @@ public class PlayerController : MonoBehaviour
     public float throwForce;
 
     private StockObject heldPickup;
-    public StockBoxController heldBox;
-    public FurnitureController heldFurniture;
+    private StockBoxController m_heldBox;
+    private FurnitureController m_heldFurniture;
 
     public float waitToPlaceStock;
-    private float placeStockCounter;
+    private float m_placeStockCounter;
     
-    private float ySpeed;
-    private float horiRot, vertRot;
+    private float m_ySpeed;
+    private float m_horiRot, m_vertRot;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -91,13 +101,22 @@ public class PlayerController : MonoBehaviour
 
         Vector2 lookInput = lookAction.action.ReadValue<Vector2>();
 
-        horiRot += lookInput.x * lookSpeed * Time.deltaTime;
-        vertRot -= lookInput.y * lookSpeed * Time.deltaTime;
+        float cameraLookSpeed = GetLookSpeed();
 
-        vertRot = Mathf.Clamp(vertRot, minLookAngle, maxLookAngle);
+        m_horiRot += lookInput.x * cameraLookSpeed * Time.deltaTime;
+        if (PlayerConfigSettings.Instance.InvertedCamera)
+        {
+            m_vertRot += lookInput.y * cameraLookSpeed * Time.deltaTime;
+        }
+        else
+        {
+            m_vertRot -= lookInput.y * cameraLookSpeed * Time.deltaTime;
+        }
 
-        transform.rotation = Quaternion.Euler(0, horiRot, 0f);
-        theCam.transform.localRotation = Quaternion.Euler(vertRot, 0f, 0f);
+        m_vertRot = Mathf.Clamp(m_vertRot, m_minLookAngle, m_maxLookAngle);
+
+        transform.rotation = Quaternion.Euler(0, m_horiRot, 0f);
+        theCam.transform.localRotation = Quaternion.Euler(m_vertRot, 0f, 0f);
 
 
 
@@ -114,15 +133,15 @@ public class PlayerController : MonoBehaviour
         Vector3 moveAmount = horiMove + vertMove;
         moveAmount = moveAmount.normalized;
 
-        moveAmount = moveAmount * moveSpeed;
+        moveAmount = moveAmount * m_moveSpeed;
 
         if (charCon.isGrounded == true)
         {
-            ySpeed = 0f;
+            m_ySpeed = 0f;
 
             if (jumpAction.action.WasPressedThisFrame())
             {
-                ySpeed = jumpForce;
+                m_ySpeed = m_jumpForce;
 
                 if (AudioManager.instance != null)
                 {
@@ -131,9 +150,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        ySpeed += (Physics.gravity.y * Time.deltaTime);
+        m_ySpeed += (Physics.gravity.y * Time.deltaTime);
 
-        moveAmount.y = ySpeed;
+        moveAmount.y = m_ySpeed;
 
         charCon.Move(moveAmount * Time.deltaTime);
 
@@ -141,7 +160,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = theCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
-        if (heldPickup == null && heldBox == null && heldFurniture == null)
+        if (heldPickup == null && m_heldBox == null && m_heldFurniture == null)
         {
             if (pickupAction.action.WasPressedThisFrame())
             {
@@ -156,14 +175,14 @@ public class PlayerController : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit, interactionRange, whatIsStockBox))
                 {
-                    heldBox = hit.collider.GetComponent<StockBoxController>();
+                    m_heldBox = hit.collider.GetComponent<StockBoxController>();
 
-                    heldBox.transform.SetParent(boxHoldPoint);
-                    heldBox.Pickup();
+                    m_heldBox.transform.SetParent(boxHoldPoint);
+                    m_heldBox.Pickup();
 
-                    if (heldBox.flap1.activeSelf == true)
+                    if (m_heldBox.flap1.activeSelf == true)
                     {
-                        heldBox.OpenClose();
+                        m_heldBox.OpenClose();
                     }
 
                     return;
@@ -211,13 +230,13 @@ public class PlayerController : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out hit, interactionRange, whatIsFurniture))
                 {
-                    heldFurniture = hit.transform.GetComponent<FurnitureController>();
+                    m_heldFurniture = hit.transform.GetComponent<FurnitureController>();
 
-                    heldFurniture.transform.SetParent(furniturePoint);
-                    heldFurniture.transform.localPosition = Vector3.zero;
-                    heldFurniture.transform.localRotation = Quaternion.identity;
+                    m_heldFurniture.transform.SetParent(furniturePoint);
+                    m_heldFurniture.transform.localPosition = Vector3.zero;
+                    m_heldFurniture.transform.localRotation = Quaternion.identity;
 
-                    heldFurniture.MakePlaceable();
+                    m_heldFurniture.MakePlaceable();
                 }
             }
         }
@@ -254,40 +273,40 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (heldBox != null)
+            if (m_heldBox != null)
             {
                 if (releaseAction.action.WasPressedThisFrame())
                 {
-                    heldBox.Release();
+                    m_heldBox.Release();
 
-                    heldBox.theRB.AddForce(theCam.transform.forward * throwForce, ForceMode.Impulse);
+                    m_heldBox.theRB.AddForce(theCam.transform.forward * throwForce, ForceMode.Impulse);
 
-                    heldBox.transform.SetParent(null);
-                    heldBox = null;
+                    m_heldBox.transform.SetParent(null);
+                    m_heldBox = null;
                 }
 
                 if (openBoxAction.action.WasPressedThisFrame())
                 {
-                    heldBox.OpenClose();
+                    m_heldBox.OpenClose();
                 }
 
                 if (pickupAction.action.WasPressedThisFrame())
                 {
-                    if (heldBox.stockInBox.Count > 0)
+                    if (m_heldBox.stockInBox.Count > 0)
                     {
                         if (Physics.Raycast(ray, out hit, interactionRange, whatIsShelf))
                         {
-                            heldBox.PlaceStockOnShelf(hit.collider.GetComponent<ShelfSpaceController>());
+                            m_heldBox.PlaceStockOnShelf(hit.collider.GetComponent<ShelfSpaceController>());
 
-                            placeStockCounter = waitToPlaceStock;
+                            m_placeStockCounter = waitToPlaceStock;
                         }
                     }
                     else
                     {
                         if (Physics.Raycast(ray, out hit, interactionRange, whatIsBin))
                         {
-                            Destroy(heldBox.gameObject);
-                            heldBox = null;
+                            Destroy(m_heldBox.gameObject);
+                            m_heldBox = null;
 
                             if (AudioManager.instance != null)
                             {
@@ -299,34 +318,43 @@ public class PlayerController : MonoBehaviour
 
                 if (pickupAction.action.IsPressed())
                 {
-                    placeStockCounter -= Time.deltaTime;
+                    m_placeStockCounter -= Time.deltaTime;
 
-                    if (placeStockCounter <= 0)
+                    if (m_placeStockCounter <= 0)
                     {
                         if (Physics.Raycast(ray, out hit, interactionRange, whatIsShelf))
                         {
-                            heldBox.PlaceStockOnShelf(hit.collider.GetComponent<ShelfSpaceController>());
+                            m_heldBox.PlaceStockOnShelf(hit.collider.GetComponent<ShelfSpaceController>());
 
-                            placeStockCounter = waitToPlaceStock;
+                            m_placeStockCounter = waitToPlaceStock;
                         }
                     }
                 }
             }
 
-            if (heldFurniture != null)
+            if (m_heldFurniture != null)
             {
-                heldFurniture.transform.position = new Vector3(furniturePoint.position.x, 0f, furniturePoint.position.z);
-                heldFurniture.transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
+                m_heldFurniture.transform.position = new Vector3(furniturePoint.position.x, 0f, furniturePoint.position.z);
+                m_heldFurniture.transform.LookAt(new Vector3(transform.position.x, 0f, transform.position.z));
 
                 if (placeFurnitureAction.action.WasPressedThisFrame())
                 {
-                    heldFurniture.transform.SetParent(null);
+                    m_heldFurniture.transform.SetParent(null);
 
-                    heldFurniture.PlaceFurniture();
+                    m_heldFurniture.PlaceFurniture();
 
-                    heldFurniture = null;
+                    m_heldFurniture = null;
                 }
             }
         }
+    }
+
+    private float GetLookSpeed()
+    {
+        if (GameController.instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            return m_gamepadLookSpeed * (PlayerConfigSettings.Instance.ControllerSensitivity + 0.5f);
+        }
+        return m_mouseLookSpeed * (PlayerConfigSettings.Instance.MouseSensitivity + 0.5f);
     }
 }

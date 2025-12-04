@@ -10,8 +10,8 @@ public class BuyFurnitureFrameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        float priceCoverted = CurrencyController.instance.ConvertMoney(furniture.price);
-        priceText.text = "Price: " + CurrencyController.instance.GetCurrencySymbol() + priceCoverted.ToString("F2");
+        float priceCoverted = CurrencyManager.Instance.ConvertMoney(furniture.price);
+        priceText.text = "Price: " + CurrencyManager.Instance.GetCurrencySymbol() + priceCoverted.ToString("F2");
     }
 
     // Update is called once per frame

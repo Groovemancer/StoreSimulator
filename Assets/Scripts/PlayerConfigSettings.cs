@@ -1,22 +1,23 @@
 using System;
 using UnityEngine;
 
-public class PlayerSettings
+public class PlayerConfigSettings
 {
-    private static PlayerSettings _instance;
-    public static PlayerSettings Instance
+    private static PlayerConfigSettings _instance;
+    public static PlayerConfigSettings Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new PlayerSettings();
+                _instance = new PlayerConfigSettings();
             }
             return _instance;
         }
     }
 
     public float MouseSensitivity;
+    public float ControllerSensitivity;
     public float MusicVolume;
     public float SoundVolume;
     public bool InvertedCamera;
@@ -24,16 +25,18 @@ public class PlayerSettings
 
     public void LoadSettings()
     {
-        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
-        MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
-        SoundVolume = PlayerPrefs.GetFloat("SoundVolume");
-        InvertedCamera = (PlayerPrefs.GetInt("InvertedCamera") != 0);
-        CurrencyType = (CurrencyType)PlayerPrefs.GetInt("CurrencyType");
+        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
+        ControllerSensitivity = PlayerPrefs.GetFloat("ControllerSensitivity", 0.5f);
+        MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
+        SoundVolume = PlayerPrefs.GetFloat("SoundVolume", 0.5f);
+        InvertedCamera = (PlayerPrefs.GetInt("InvertedCamera", 0) != 0);
+        CurrencyType = (CurrencyType)PlayerPrefs.GetInt("CurrencyType", 0);
     }
 
     public void SaveSettings()
     {
         PlayerPrefs.SetFloat("MouseSensitivity", MouseSensitivity);
+        PlayerPrefs.SetFloat("ControllerSensitivity", ControllerSensitivity);
         PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
         PlayerPrefs.SetFloat("SoundVolume", SoundVolume);
         PlayerPrefs.SetInt("InvertedCamera", Convert.ToInt32(InvertedCamera));

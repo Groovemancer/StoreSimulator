@@ -39,12 +39,12 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        CurrencyController.instance.OnCurrencyChanged += UpdateMoneyDisplay;
+        CurrencyManager.Instance.OnCurrencyChanged += UpdateMoneyDisplay;
     }
 
     private void OnDisable()
     {
-        CurrencyController.instance.OnCurrencyChanged -= UpdateMoneyDisplay;
+        CurrencyManager.Instance.OnCurrencyChanged -= UpdateMoneyDisplay;
     }
 
     // Update is called once per frame
@@ -66,11 +66,11 @@ public class UIController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
 
-        float exchangedBasePrice = CurrencyController.instance.ConvertMoney(stockToUpdate.price);
-        float exchangedCurrentPrice = CurrencyController.instance.ConvertMoney(stockToUpdate.currentPrice);
+        float exchangedBasePrice = CurrencyManager.Instance.ConvertMoney(stockToUpdate.price);
+        float exchangedCurrentPrice = CurrencyManager.Instance.ConvertMoney(stockToUpdate.currentPrice);
 
-        basePriceText.text = CurrencyController.instance.GetCurrencySymbol() + exchangedBasePrice.ToString("F2");
-        currentPriceText.text = CurrencyController.instance.GetCurrencySymbol() + exchangedCurrentPrice.ToString("F2");
+        basePriceText.text = CurrencyManager.Instance.GetCurrencySymbol() + exchangedBasePrice.ToString("F2");
+        currentPriceText.text = CurrencyManager.Instance.GetCurrencySymbol() + exchangedCurrentPrice.ToString("F2");
         activeStockInfo = stockToUpdate;
 
         priceInputField.text = exchangedCurrentPrice.ToString("F2");
@@ -85,11 +85,11 @@ public class UIController : MonoBehaviour
 
     public void ApplyPriceUpdate()
     {
-        float price = CurrencyController.instance.ConvertToDollars(float.Parse(priceInputField.text));
+        float price = CurrencyManager.Instance.ConvertToDollars(float.Parse(priceInputField.text));
 
         activeStockInfo.currentPrice = price;
 
-        currentPriceText.text = CurrencyController.instance.GetCurrencySymbol() + price.ToString("F2");
+        currentPriceText.text = CurrencyManager.Instance.GetCurrencySymbol() + price.ToString("F2");
 
         StockInfoController.instance.UpdatePrice(activeStockInfo.name, activeStockInfo.currentPrice);
 
@@ -98,14 +98,14 @@ public class UIController : MonoBehaviour
 
     private void UpdateMoneyDisplay(CurrencyType oldCurrencyType)
     {
-        float exchangedMoney = CurrencyController.instance.ConvertMoney(StoreController.instance.currentMoney);
+        float exchangedMoney = CurrencyManager.Instance.ConvertMoney(StoreController.instance.currentMoney);
         UpdateMoney(exchangedMoney);
     }
 
     public void UpdateMoney(float currentMoney)
     {
-        float exchangedMoney = CurrencyController.instance.ConvertMoney(currentMoney);
-        moneyText.text = CurrencyController.instance.GetCurrencySymbol() + exchangedMoney.ToString("F2");
+        float exchangedMoney = CurrencyManager.Instance.ConvertMoney(currentMoney);
+        moneyText.text = CurrencyManager.Instance.GetCurrencySymbol() + exchangedMoney.ToString("F2");
     }
 
     public void OpenCloseBuyMenu()
@@ -140,6 +140,15 @@ public class UIController : MonoBehaviour
     {
         if (pauseScreen.activeSelf == false)
         {
+            if (buyMenuScreen.activeSelf == true)
+            {
+                buyMenuScreen.SetActive(false);
+            }
+            if (updatePricePanel.activeSelf == true)
+            {
+                updatePricePanel.SetActive(false);
+            }
+
             pauseScreen.SetActive(true);
 
             Cursor.lockState = CursorLockMode.None;
